@@ -1,19 +1,17 @@
-import pyjsonrpc
+from jsonrpclib.SimpleJSONRPCServer import SimpleJSONRPCServer
 
 SERVER_HOST = 'localhost'
 SERVER_PORT = 4040
 
-class RequestHandler(pyjsonrpc.HttpRequestHandler):
-    """ Test method """
-    @pyjsonrpc.rpcmethod
-    def add(self, a, b):
-        print ("add is called with %d and %d" % (a, b))
-        return a + b
-http_server = pyjsonrpc.ThreadingHttpServer(
-    server_address = (SERVER_HOST, SERVER_PORT),
-    RequestHandlerClass = RequestHandler
-)
+
+def add(a, b):
+    print ("add is called with %d and %d" % (a, b))
+    return a + b
+
+
+# register all server function
+RPC_SERVER = SimpleJSONRPCServer((SERVER_HOST, SERVER_PORT))
+RPC_SERVER.register_function(add, 'add')
 
 print ("Starting HTTP server on %s:%d" % (SERVER_HOST, SERVER_PORT))
-
-http_server.serve_forever()
+RPC_SERVER.serve_forever()
