@@ -1,9 +1,12 @@
 from jsonrpclib.SimpleJSONRPCServer import SimpleJSONRPCServer
-
+import os
+import sys
+import json
 
 SERVER_HOST = 'localhost'
 SERVER_PORT = 4040
 
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'common'))
 
 def add(a, b):
     print ("add is called with %d and %d" % (a, b))

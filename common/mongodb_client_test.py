@@ -1,4 +1,4 @@
-import utils.mongodb_client as client
+import common.mongodb_client as client
 
 
 def test_basic():

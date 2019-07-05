@@ -1,4 +1,4 @@
-import utils.cloudAMQP_client as cloudAMQP_client
+import common.cloudAMQP_client as cloudAMQP_client
 
 CLOUDAMQP_URL = "amqp://ugcvhlul:bfCRuVZFOK5jeqA1GyjJsDu6ml4QhyKs@caterpillar.rmq.cloudamqp.com/ugcvhlul"
 

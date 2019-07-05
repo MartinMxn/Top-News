@@ -27,7 +27,7 @@ export default class NewsPanel extends Component {
 
   componentDidMount() {
     this.loadMoreNews();
-    this.loadMoreNews = _.debounce(this.loadMoreNews(), 1000);
+    this.loadMoreNews = _.debounce(this.loadMoreNews, 1000);
     console.log("load more news");
     window.addEventListener("scroll", () => this.handleScroll());
   }
