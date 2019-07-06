@@ -2,3 +2,4 @@ pymongo
 pika
 redis
 requests
+lxml
