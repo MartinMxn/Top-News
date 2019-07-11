@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./NewsPanel.css";
 import NewsCard from "../NewsCard/NewsCard";
 import _ from "lodash";
-// import Auth from '../Auth/Auth';
+import Auth from '../Auth/Auth';
 
 export default class NewsPanel extends Component {
   constructor() {
@@ -27,7 +27,7 @@ export default class NewsPanel extends Component {
 
   componentDidMount() {
     this.loadMoreNews();
-    this.loadMoreNews = _.debounce(this.loadMoreNews, 1000);
+    // this.loadMoreNews = _.debounce(this.loadMoreNews, 1000);
     console.log("load more news");
     window.addEventListener("scroll", () => this.handleScroll());
   }
@@ -55,6 +55,9 @@ export default class NewsPanel extends Component {
 
     let request = new Request('http://localhost:3000/news', {
       method: 'GET',
+      headers: {
+        Authorization: "bearer " + Auth.getToken()
+      }
     });
 
     fetch(request)

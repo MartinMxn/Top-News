@@ -1,5 +1,5 @@
 var express = require('express');
-// var rpc_client = require('../rpc_client/rpc_client');
+var rpc_client = require('../rpc_client/rpc_client');
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
