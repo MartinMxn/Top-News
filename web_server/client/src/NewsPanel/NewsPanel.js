@@ -33,28 +33,18 @@ export default class NewsPanel extends Component {
   }
 
   loadMoreNews() {
-    // if (this.state.loadedAll == true) {
-    //   return;
-    // }
+    if (this.state.loadedAll == true) {
+      return;
+    }
 
-    // const news_url =
-    //   "http://" +
-    //   window.location.hostname +
-    //   ":3000" +
-    //   "/news/userId/" +
-    //   Auth.getEmail() +
-    //   "/pageNum/" +
-    //   this.state.pageNum;
+    const news_url =
+      "http://localhost:3000/news/userId/" +
+      Auth.getEmail() +
+      "/pageNum/" +
+      this.state.pageNum;
 
-    // const request = new Request(news_url, {
-    //   method: "GET",
-    //   headers: {
-    //     Authorization: "bearer " + Auth.getToken()
-    //   }
-    // });
-
-    let request = new Request('http://localhost:3000/news', {
-      method: 'GET',
+    const request = new Request(news_url, {
+      method: "GET",
       headers: {
         Authorization: "bearer " + Auth.getToken()
       }
@@ -63,20 +53,15 @@ export default class NewsPanel extends Component {
     fetch(request)
       .then(res => res.json())
       .then(news => {
+        if (!news || news.length === 0) {
+          this.setState({ loadedAll: true });
+        }
+
         this.setState({
           news: this.state.news ? this.state.news.concat(news) : news,
-        })
-      })
-      // .then(news => {
-      //   if (!news || news.length == 0) {
-      //     this.setState({ loadedAll: true });
-      //   }
-
-      //   this.setState({
-      //     news: this.state.news ? this.state.news.concat(news) : news,
-      //     pageNum: this.state.pageNum + 1
-      //   });
-      // });
+          pageNum: this.state.pageNum + 1
+        });
+      });
   }
 
   renderNews() {
