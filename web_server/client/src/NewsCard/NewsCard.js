@@ -1,6 +1,6 @@
 import './NewsCard.css';
 import React from 'react';
-// import Auth from '../Auth/Auth';
+import Auth from '../Auth/Auth';
 
 class NewsCard extends React.Component {
     redirectToUrl(url, event) {

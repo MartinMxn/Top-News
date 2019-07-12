@@ -69,6 +69,7 @@ def handle_message(msg):
 
     # Update model using time decaying method
     news = db[NEWS_TABLE_NAME].find_one({'digest': newsId})
+    print(news)
     if (news is None
         or 'class' not in news
         or news['class'] not in news_classes.classes):

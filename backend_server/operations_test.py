@@ -1,6 +1,10 @@
 import backend_server.operations as operations
 import common.mongodb_client as mongodb_client
-import common.cloudAMQP_client as cloudAMQP_client
+from common.cloudAMQP_client import CloudAMQPClient
+
+LOG_CLICKS_TASK_QUEUE_URL = "amqp://lznzxucj:TMLwAMQoQ8MHAL_Srf76wLyo1fGsCdP2@woodpecker.rmq.cloudamqp.com/lznzxucj"
+LOG_CLICKS_TASK_QUEUE_NAME = "tap-news-log-clicks-task-queue"
+cloudAMQP_client = CloudAMQPClient(LOG_CLICKS_TASK_QUEUE_URL, LOG_CLICKS_TASK_QUEUE_NAME)
 
 def test_getNewsSummariesForUser_basic():
     news = operations.getNewsSummariesForUser('test', 1)
@@ -26,7 +30,9 @@ def test_logNewsClickForUser_basic():
     # clean the db, make sure the later test operation is test itself
     db[operations.CLICK_LOGS_TABLE_NAME].delete_many({"userId": "test"})
 
-    record = list(db[operations.CLICK_LOGS_TABLE_NAME].find().sort(['timestamp', -1]).limit(1))[0]
+    operations.logNewsClickForUser('test', 'test_news')
+
+    record = list(db[operations.CLICK_LOGS_TABLE_NAME].find().sort([('timestamp', -1)]).limit(1))[0]
 
     assert record is not None
     assert record['userId'] == 'test'
@@ -36,7 +42,7 @@ def test_logNewsClickForUser_basic():
     db[operations.CLICK_LOGS_TABLE_NAME].delete_many({"userId": "test"})
 
     # Verify the message has been sent to queue
-    msg = cloudAMQP_client.CloudAMQPClient.get_message()
+    msg = cloudAMQP_client.get_message()
     assert msg is not None
     assert msg['userId'] == 'test'
     assert msg['newsId'] == 'test_news'
