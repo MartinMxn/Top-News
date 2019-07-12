@@ -60,7 +60,7 @@ OK
 ```
 Topic based model, based on user click and more weight on user click, topic associated with predict click probability
 
-initial topic start with same probability
+initial 14 topics start with same probability
 if selected: p = (1 - a) * p + a
 if not: p = (1 - a) * p
 a = time decay weight(0.2), larger -> more weight on recent
