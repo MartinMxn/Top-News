@@ -38,18 +38,19 @@ NEWS_TABLE_NAME = "news"
 
 cloudAMQP_client = CloudAMQPClient(LOG_CLICKS_TASK_QUEUE_URL, LOG_CLICKS_TASK_QUEUE_NAME)
 
+
 def handle_message(msg):
     if msg is None or not isinstance(msg, dict):
         return
 
     if ('userId' not in msg
-        or 'newsId' not in msg
-        or 'timestamp' not in msg):
+            or 'newsId' not in msg
+            or 'timestamp' not in msg):
         return
 
     userId = msg['userId']
     newsId = msg['newsId']
-
+    print('newsid', newsId)
     # Update user's preference
     db = mongodb_client.get_db()
     model = db[PREFERENCE_MODEL_TABLE_NAME].find_one({'userId': userId})
@@ -57,7 +58,7 @@ def handle_message(msg):
     # If model not exists, create a new one
     if model is None:
         print('Creating preference model for new user: %s' % userId)
-        new_model = {'userId' : userId}
+        new_model = {'userId': userId}
         # preference map for each topic
         preference = {}
         for i in news_classes.classes:
@@ -71,8 +72,8 @@ def handle_message(msg):
     news = db[NEWS_TABLE_NAME].find_one({'digest': newsId})
     print(news)
     if (news is None
-        or 'class' not in news
-        or news['class'] not in news_classes.classes):
+            or 'class' not in news
+            or news['class'] not in news_classes.classes):
         # print(news is None)
         # print('class' not in news)
         # print(news['class'] not in news_classes.classes)
@@ -93,6 +94,7 @@ def handle_message(msg):
     print("model", model)
     db[PREFERENCE_MODEL_TABLE_NAME].replace_one({'userId': userId}, model, upsert=True)
 
+
 def run():
     while True:
         if cloudAMQP_client is not None:
@@ -108,5 +110,6 @@ def run():
             # Remove this if this becomes a bottleneck.
             cloudAMQP_client.sleep(SLEEP_TIME_IN_SECONDS)
 
-if __name__ ==  "__main__":
+
+if __name__ == "__main__":
     run()

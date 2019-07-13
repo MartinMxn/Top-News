@@ -56,7 +56,11 @@ redis cli
 OK
 ```
 
-## ML model: Time Decay Model
+## Why RPC / RPC vs REST ?
+```
+```
+
+## Time Decay Model
 ```
 Topic based model, based on user click and more weight on user click, topic associated with predict click probability
 
