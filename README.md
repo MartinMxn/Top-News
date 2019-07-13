@@ -58,6 +58,22 @@ OK
 
 ## Why RPC / RPC vs REST ?
 ```
+REST: for external usage, front-end to back-end, REST better, because:
+Pros:
+1. resource oriented
+2. easy to modify
+2. easy to cache
+Cons:
+1. format could changed
+2. hard to authentication
+
+RPC:
+Pros:
+1. action oriented
+2. RPC is transparentt, like a local procedure call
+3. strictly defined, client must know the method name, argument/type
+Cons:
+1.hard to modify, cause both client and server need to change
 ```
 
 ## Time Decay Model
